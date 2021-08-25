@@ -1,0 +1,21 @@
+----> 21:32:21 Sun Aug 22 olli@dell15 ~/bin/cpp/geekbrains/OOP/homework2/build
+$ ./hw2t1 
+Есть 3 студентов: 
+Alexey
+Sergey
+Anna
+
+Введите имя студента о котором хотите узнать больше: Anna
+Anna:
+ Age: 20
+ Gender: Female
+ Weight: 60
+ Years learning: 3
+----> 21:32:32 Sun Aug 22 olli@dell15 ~/bin/cpp/geekbrains/OOP/homework2/build
+$ ./hw2t2 
+My apple is red.
+My banana is yellow.
+My Granny Smith apple is green.
+----> 21:32:40 Sun Aug 22 olli@dell15 ~/bin/cpp/geekbrains/OOP/homework2/build
+$ 
+
