@@ -10,7 +10,7 @@
 // За дилера будет играть компьютер.
 
 enum Suit {HEARTS, SPADES, CROSS, DIAMONDS}; // Черви, Пики, Крести, Буби (в этой игре не нужно)
-enum Distributed {DEALER, PLAYER, DECK};
+enum Distributed {DEALER, PLAYER, DECK, UNSET};
 
 // карта
 struct Card {
@@ -25,14 +25,46 @@ struct Card {
 class DeckOfCards {
     // в колоде по 4 карты достоинством 2,3,4,5,6,7,8,9,10,валет,дама,король,туз
     Card AllCards[52];
+    int indexForToss[52]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,
+                          24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,
+                          44,45,46,47,48,49,50,51};
     public:
-        int lastCardIndex; // индекс верхней карты в колоде (0..cardsCount-1) (осталась верхней в колоде после раздачи)
+        int lastCardIndex=0; // индекс верхней карты в колоде (0..cardsCount-1) (осталась верхней в колоде после раздачи)
         DeckOfCards() {
 	  init();
 	  //shuffle(); // будет в Game::fistStep()
 	}
-        void init() {
-	  // метод присваивающий значения массиву AllCards
+	void init(); // метод присваивающий значения массиву AllCards
+        void shuffle() {
+	  // метод "тасующий" массив AllCards, записывает в индекс карты indexInDeck случайное и
+	  //  не повторяющееся число в диапазоне 0..51
+	}
+	// метод возвращающий карту из колоды, меняет lastCardIndex,завершён.
+	Card getCard() {
+	  if (lastCardIndex >= 52) {
+	    Card absent;
+	    absent.cardValue=0;
+	    absent.cardName="";
+	    absent.indexInDeck=-1;
+	    absent.distributed=UNSET;
+	    absent.suit=SPADES;
+	    return absent;  
+	  }
+	  int i=0;
+	  for(;i<=51;++i) {
+	   if(AllCards[i].indexInDeck == lastCardIndex) {
+	     break;
+	   }
+	  }
+	  lastCardIndex++;
+	  AllCards[i].indexInDeck=-1;
+	  AllCards[i].distributed=UNSET;
+	  return AllCards[i];
+	}
+};
+
+// метод присваивающий значения массиву AllCards
+void DeckOfCards::init() {
 	  // двойки
 	  Card dvaPik;
 	  dvaPik.cardValue=2;
@@ -182,48 +214,235 @@ class DeckOfCards {
 	  Card semPik;
 	  semPik.cardValue=7;
 	  semPik.cardName="7 пик";
-	  semPik.indexInDeck=0;
+	  semPik.indexInDeck=20;
 	  semPik.distributed=DECK;
 	  semPik.suit=SPADES;
-          AllCards[0]=semPik;
+          AllCards[20]=semPik;
 	  Card semCherv;
 	  semCherv.cardValue=7;
 	  semCherv.cardName="7 червей";
-	  semCherv.indexInDeck=1;
+	  semCherv.indexInDeck=21;
 	  semCherv.distributed=DECK;
 	  semCherv.suit=HEARTS;
-          AllCards[1]=semCherv;
+          AllCards[21]=semCherv;
 	  Card semTref;
 	  semTref.cardValue=7;
 	  semTref.cardName="7 треф";
-	  semTref.indexInDeck=2;
+	  semTref.indexInDeck=22;
 	  semTref.distributed=DECK;
 	  semTref.suit=CROSS;
-          AllCards[2]=semTref;
+          AllCards[22]=semTref;
 	  Card semBubey;
 	  semBubey.cardValue=7;
 	  semBubey.cardName="7 бубей";
-	  semBubey.indexInDeck=3;
+	  semBubey.indexInDeck=23;
 	  semBubey.distributed=DECK;
 	  semBubey.suit=DIAMONDS;
-          AllCards[3]=semBubey;
+          AllCards[23]=semBubey;
 	  // восьмерки
+	  Card vosemPik;
+	  vosemPik.cardValue=8;
+	  vosemPik.cardName="8 пик";
+	  vosemPik.indexInDeck=24;
+	  vosemPik.distributed=DECK;
+	  vosemPik.suit=SPADES;
+          AllCards[24]=vosemPik;
+	  Card vosemCherv;
+	  vosemCherv.cardValue=8;
+	  vosemCherv.cardName="8 червей";
+	  vosemCherv.indexInDeck=25;
+	  vosemCherv.distributed=DECK;
+	  vosemCherv.suit=HEARTS;
+          AllCards[25]=vosemCherv;
+	  Card vosemTref;
+	  vosemTref.cardValue=8;
+	  vosemTref.cardName="8 треф";
+	  vosemTref.indexInDeck=26;
+	  vosemTref.distributed=DECK;
+	  vosemTref.suit=CROSS;
+          AllCards[26]=vosemTref;
+	  Card vosemBubey;
+	  vosemBubey.cardValue=8;
+	  vosemBubey.cardName="8 бубей";
+	  vosemBubey.indexInDeck=27;
+	  vosemBubey.distributed=DECK;
+	  vosemBubey.suit=DIAMONDS;
+          AllCards[27]=vosemBubey;
 	  // девятки
+	  Card deviatPik;
+	  deviatPik.cardValue=9;
+	  deviatPik.cardName="9 пик";
+	  deviatPik.indexInDeck=28;
+	  deviatPik.distributed=DECK;
+	  deviatPik.suit=SPADES;
+          AllCards[28]=deviatPik;
+	  Card deviatCherv;
+	  deviatCherv.cardValue=9;
+	  deviatCherv.cardName="9 червей";
+	  deviatCherv.indexInDeck=29;
+	  deviatCherv.distributed=DECK;
+	  deviatCherv.suit=HEARTS;
+          AllCards[29]=deviatCherv;
+	  Card deviatTref;
+	  deviatTref.cardValue=9;
+	  deviatTref.cardName="9 треф";
+	  deviatTref.indexInDeck=30;
+	  deviatTref.distributed=DECK;
+	  deviatTref.suit=CROSS;
+          AllCards[30]=deviatTref;
+	  Card deviatBubey;
+	  deviatBubey.cardValue=9;
+	  deviatBubey.cardName="9 бубей";
+	  deviatBubey.indexInDeck=31;
+	  deviatBubey.distributed=DECK;
+	  deviatBubey.suit=DIAMONDS;
+          AllCards[31]=deviatBubey;
 	  // десятки
+	  Card desiatPik;
+	  desiatPik.cardValue=10;
+	  desiatPik.cardName="10 пик";
+	  desiatPik.indexInDeck=32;
+	  desiatPik.distributed=DECK;
+	  desiatPik.suit=SPADES;
+          AllCards[32]=desiatPik;
+	  Card desiatCherv;
+	  desiatCherv.cardValue=10;
+	  desiatCherv.cardName="10 червей";
+	  desiatCherv.indexInDeck=33;
+	  desiatCherv.distributed=DECK;
+	  desiatCherv.suit=HEARTS;
+          AllCards[33]=desiatCherv;
+	  Card desiatTref;
+	  desiatTref.cardValue=10;
+	  desiatTref.cardName="10 треф";
+	  desiatTref.indexInDeck=34;
+	  desiatTref.distributed=DECK;
+	  desiatTref.suit=CROSS;
+          AllCards[34]=desiatTref;
+	  Card desiatBubey;
+	  desiatBubey.cardValue=10;
+	  desiatBubey.cardName="10 бубей";
+	  desiatBubey.indexInDeck=35;
+	  desiatBubey.distributed=DECK;
+	  desiatBubey.suit=DIAMONDS;
+          AllCards[35]=desiatBubey;
 	  // валеты
+	  Card valetPik;
+	  valetPik.cardValue=10;
+	  valetPik.cardName="валет пик";
+	  valetPik.indexInDeck=36;
+	  valetPik.distributed=DECK;
+	  valetPik.suit=SPADES;
+          AllCards[36]=valetPik;
+	  Card valetCherv;
+	  valetCherv.cardValue=10;
+	  valetCherv.cardName="валет червей";
+	  valetCherv.indexInDeck=37;
+	  valetCherv.distributed=DECK;
+	  valetCherv.suit=HEARTS;
+          AllCards[37]=valetCherv;
+	  Card valetTref;
+	  valetTref.cardValue=10;
+	  valetTref.cardName="валет треф";
+	  valetTref.indexInDeck=38;
+	  valetTref.distributed=DECK;
+	  valetTref.suit=CROSS;
+          AllCards[38]=valetTref;
+	  Card valetBubey;
+	  valetBubey.cardValue=10;
+	  valetBubey.cardName="валет бубей";
+	  valetBubey.indexInDeck=39;
+	  valetBubey.distributed=DECK;
+	  valetBubey.suit=DIAMONDS;
+          AllCards[39]=valetBubey;
 	  // дамы
+	  Card damaPik;
+	  damaPik.cardValue=10;
+	  damaPik.cardName="дама пик";
+	  damaPik.indexInDeck=40;
+	  damaPik.distributed=DECK;
+	  damaPik.suit=SPADES;
+          AllCards[40]=damaPik;
+	  Card damaCherv;
+	  damaCherv.cardValue=10;
+	  damaCherv.cardName="дама червей";
+	  damaCherv.indexInDeck=41;
+	  damaCherv.distributed=DECK;
+	  damaCherv.suit=HEARTS;
+          AllCards[41]=damaCherv;
+	  Card damaTref;
+	  damaTref.cardValue=10;
+	  damaTref.cardName="дама треф";
+	  damaTref.indexInDeck=42;
+	  damaTref.distributed=DECK;
+	  damaTref.suit=CROSS;
+          AllCards[42]=damaTref;
+	  Card damaBubey;
+	  damaBubey.cardValue=10;
+	  damaBubey.cardName="дама бубей";
+	  damaBubey.indexInDeck=43;
+	  damaBubey.distributed=DECK;
+	  damaBubey.suit=DIAMONDS;
+          AllCards[43]=damaBubey;
 	  // короли
+	  Card korolPik;
+	  korolPik.cardValue=10;
+	  korolPik.cardName="король пик";
+	  korolPik.indexInDeck=44;
+	  korolPik.distributed=DECK;
+	  korolPik.suit=SPADES;
+          AllCards[44]=korolPik;
+	  Card korolCherv;
+	  korolCherv.cardValue=10;
+	  korolCherv.cardName="король червей";
+	  korolCherv.indexInDeck=45;
+	  korolCherv.distributed=DECK;
+	  korolCherv.suit=HEARTS;
+          AllCards[45]=korolCherv;
+	  Card korolTref;
+	  korolTref.cardValue=10;
+	  korolTref.cardName="король треф";
+	  korolTref.indexInDeck=46;
+	  korolTref.distributed=DECK;
+	  korolTref.suit=CROSS;
+          AllCards[46]=korolTref;
+	  Card korolBubey;
+	  korolBubey.cardValue=10;
+	  korolBubey.cardName="король бубей";
+	  korolBubey.indexInDeck=47;
+	  korolBubey.distributed=DECK;
+	  korolBubey.suit=DIAMONDS;
+          AllCards[47]=korolBubey;
 	  // тузы
+	  Card tuzPik;
+	  tuzPik.cardValue=10;
+	  tuzPik.cardName="туз пик";
+	  tuzPik.indexInDeck=48;
+	  tuzPik.distributed=DECK;
+	  tuzPik.suit=SPADES;
+          AllCards[48]=tuzPik;
+	  Card tuzCherv;
+	  tuzCherv.cardValue=10;
+	  tuzCherv.cardName="туз червей";
+	  tuzCherv.indexInDeck=49;
+	  tuzCherv.distributed=DECK;
+	  tuzCherv.suit=HEARTS;
+          AllCards[49]=tuzCherv;
+	  Card tuzTref;
+	  tuzTref.cardValue=10;
+	  tuzTref.cardName="туз треф";
+	  tuzTref.indexInDeck=50;
+	  tuzTref.distributed=DECK;
+	  tuzTref.suit=CROSS;
+          AllCards[50]=tuzTref;
+	  Card tuzBubey;
+	  tuzBubey.cardValue=10;
+	  tuzBubey.cardName="туз бубей";
+	  tuzBubey.indexInDeck=51;
+	  tuzBubey.distributed=DECK;
+	  tuzBubey.suit=DIAMONDS;
+          AllCards[51]=tuzBubey;
 	}
-        void shuffle() {
-	  // метод "тасующий" массив AllCards, записывает в индекс карты indexInDeck случайное и
-	  //  не повторяющееся число в диапазоне 0..51
-	}
-	Card getCard() {
-	  // метод возвращающий карту из колоды, меняет lastCardIndex
-	  return AllCards[0]; // FIXME
-	}
-};
 
 class Player {
     Card AllCards[9]={}; // больше 9 карт всегда будет больше 21
@@ -265,25 +484,25 @@ class Player {
 	   if(summ+variableCardValue1 > 21)
              summ+=1;
 	   else
-	     summ+=11
+	     summ+=11;
 	 }
          if(variableCardValue2){
 	   if(summ+variableCardValue2 > 21)
              summ+=1;
 	   else
-	     summ+=11
+	     summ+=11;
 	 }
          if(variableCardValue3){
 	   if(summ+variableCardValue3 > 21)
              summ+=1;
 	   else
-	     summ+=11
+	     summ+=11;
 	 }
          if(variableCardValue4){
 	   if(summ+variableCardValue4 > 21)
              summ+=1;
 	   else
-	     summ+=11
+	     summ+=11;
 	 }
 	 return summ;
        }
@@ -376,14 +595,12 @@ class Game {
 
 int main(int argc, char ** argv) {
     Game g;
-repeat:
+//repeat:
     while(!g.win()) {
        g.step();
     }
     // тут спросить хочет ли продолжать игру,
-    // если да:
-    // g.
-    // goto repeat;
+    // если да: goto repeat;
     return 0;
 
 }
